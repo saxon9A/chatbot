@@ -1,0 +1,12 @@
+# Environnement virtuel
+.venv/
+env/
+venv/
+
+# Fichiers Python inutiles
+__pycache__/
+*.pyc
+
+# Clés API ou fichiers sensibles
+cleapi.txt
+*.env
