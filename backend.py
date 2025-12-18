@@ -10,12 +10,13 @@ BASE_DIR = Path(__file__).resolve().parent
 # =====================================================
 # Lecture de la clé API depuis cleapi.txt
 # =====================================================
-def get_api_key():
-    api_path = BASE_DIR / "cleapi.txt"
-    if not api_path.exists():
-        raise FileNotFoundError("❌ cleapi.txt introuvable")
+import os
 
-    return api_path.read_text(encoding="utf-8").strip()
+def get_api_key():
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("❌ La clé API GROQ_API_KEY n'est pas définie dans les secrets Streamlit.")
+    return api_key
 
 
 # =====================================================
