@@ -1,17 +1,16 @@
+import os
 from groq import Groq
 from pathlib import Path
 
 # =====================================================
-# Chemin de base du projet
+# Chemin de base du projet (robuste pour Streamlit Cloud)
 # =====================================================
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).parent
 
 
 # =====================================================
-# Lecture de la clé API depuis cleapi.txt
+# Lecture de la clé API depuis les secrets Streamlit
 # =====================================================
-import os
-
 def get_api_key():
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
@@ -20,14 +19,19 @@ def get_api_key():
 
 
 # =====================================================
-# Lecture du prompt système
+# Lecture d’un fichier local (context.txt)
 # =====================================================
 def read_file(file_name):
-    return (BASE_DIR / file_name).read_text(encoding="utf-8")
+    file_path = BASE_DIR / file_name
+
+    if not file_path.exists():
+        raise FileNotFoundError(f"❌ Fichier introuvable : {file_path}")
+
+    return file_path.read_text(encoding="utf-8")
 
 
 # =====================================================
-# Construction des messages
+# Construction des messages pour le LLM
 # =====================================================
 def build_messages(history):
     messages = [
